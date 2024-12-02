@@ -2,9 +2,8 @@
  * 返回路径的扩展名，从最后一个 "." 到路径最后一部分的字符串结尾
  * @param path 路径
  * @param withDot 是否带 "."
- * @returns 
  */
-export const extname = (path: string, withDot = false): string => {
+export const extName = (path: string, withDot = false): string => {
     if (typeof path !== "string") {
         throw new Error("path must be a string");
     }
@@ -24,16 +23,13 @@ export const extname = (path: string, withDot = false): string => {
  * 返回路径文件名
  * @param path 路径
  * @param ext 是否带后缀名
- * @returns 
  */
-export const basename = (path: string, ext = false): string => {
+export const baseName = (path: string, ext = false): string => {
     if (typeof path !== "string") {
         throw new Error("path must be a string");
     }
-    // 找到最后一个路径分隔符的位置，支持正斜杠 (/) 和反斜杠 (\)
     const lastSlashIndex = Math.max(path.lastIndexOf("/"), path.lastIndexOf("\\"));
     const fileName = lastSlashIndex === -1 ? path : path.slice(lastSlashIndex + 1);
-    // console.log(fileName);
     if (!ext) {
         const lastDotIndex = fileName.lastIndexOf(".");
         if (lastDotIndex > 0) {
