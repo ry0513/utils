@@ -5,7 +5,7 @@
 ```shell
 npm i @ry0513/utils
 # 或者
-pnpm i tdesign-tiptap
+pnpm i @ry0513/utils
 ```
 
 ## 方法
