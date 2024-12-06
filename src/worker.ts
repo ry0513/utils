@@ -1,6 +1,12 @@
+type WorkerPoolsOptions = {
+    maxWorkers?: number;
+    credentials?: WorkerOptions["credentials"];
+    type?: WorkerOptions["type"];
+};
+
 /**
  * Web Worker 线程池
- * @param path 文件地址 
+ * @param path 文件地址
  * @param maxWorkers 允许最大的线程数量，默认 4
  */
 export class WorkerPools {
@@ -8,10 +14,12 @@ export class WorkerPools {
     private maxWorkers: number;
     private workers: Worker[] = [];
     private taskQueue: any[] = [];
+    private WorkerPoolsOptions: WorkerPoolsOptions;
 
-    constructor(path: string | URL, maxWorkers = 4) {
+    constructor(path: string | URL, WorkerPoolsOptions: WorkerPoolsOptions = {}) {
         this.path = path;
-        this.maxWorkers = maxWorkers;
+        this.maxWorkers = WorkerPoolsOptions.maxWorkers || 4;
+        this.WorkerPoolsOptions = WorkerPoolsOptions;
     }
 
     private runTask(worker?: Worker) {
@@ -42,7 +50,10 @@ export class WorkerPools {
     }
 
     private initialize(): Worker {
-        const worker = new Worker(this.path);
+        const worker = new Worker(this.path, {
+            type: this.WorkerPoolsOptions.type,
+            credentials: this.WorkerPoolsOptions.credentials
+        });
         this.workers.push(worker);
         return worker;
     }
@@ -58,8 +69,8 @@ export class WorkerPools {
 
     /**
      * 添加任务
-     * @param data 
-     * @returns 
+     * @param data
+     * @returns
      */
     public addTask(data: any): Promise<any> {
         return new Promise((resolve, reject) => {

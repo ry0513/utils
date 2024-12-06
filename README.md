@@ -1,4 +1,4 @@
-个人使用的小工具箱 QAQ
+个人使用的小工具箱
 
 ## 安装
 
@@ -60,7 +60,13 @@ console.log(baseName("/path/AAA00.jpg", true)); // AAA00.jpg
 类型
 
 ```
-new WorkerPools(path: string | URL, maxWorkers = 4)
+new WorkerPools(path: string | URL, options?:WorkerPoolsOptions)
+
+type WorkerPoolsOptions = {
+    maxWorkers?: number;
+    credentials?: WorkerOptions["credentials"];
+    type?: WorkerOptions["type"];
+};
 ```
 
 例子
@@ -68,10 +74,16 @@ new WorkerPools(path: string | URL, maxWorkers = 4)
 ```js
 import { WorkerPools } from "@ry0513/utils";
 // 假设 worker.js 计算文件MD5的并返回
-const pools = new WorkerPools("./worker.js", 8);
+const pools = new WorkerPools("./worker.js", {
+  maxWorkers: 8,
+  type: "module",
+});
 // vite 需要 new URL() 导入
 // https://cn.vitejs.dev/guide/features.html#web-workers
-// const pools = new WorkerPools(new URL("./worker", import.meta.url), 8);
+// const pools = new WorkerPools(new URL("./worker", import.meta.url), {
+//  maxWorkers: 8,
+//  type: "module"
+//});
 // 假设 fileList 等待计算的文件列表
 fileList.map(async (file) => {
   try {
