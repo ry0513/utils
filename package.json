@@ -1,6 +1,6 @@
 {
     "name": "@ry0513/utils",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "personal utils",
     "type": "module",
     "main": "./lib/index.js",
